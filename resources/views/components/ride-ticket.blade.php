@@ -1,7 +1,7 @@
 @props(['ride'])
 
 <a href="{{ route('rides.show', $ride) }}"
-   class="group relative flex overflow-hidden rounded-3xl border border-white/[0.07] bg-linear-to-br from-white/[0.06] via-white/[0.02] to-transparent p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-flame-400/40 hover:shadow-[0_24px_60px_-30px_rgba(255,90,54,0.55)]">
+   class="group relative flex overflow-hidden rounded-3xl border border-white/7 bg-linear-to-br from-white/6 via-white/2 to-transparent p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-flame-400/40 hover:shadow-[0_24px_60px_-30px_rgba(255,90,54,0.55)]">
 
     {{-- Left: trip details --}}
     <div class="flex flex-1 flex-col gap-2 pr-6">

@@ -28,7 +28,20 @@
                 </nav>
 
                 <div class="flex items-center gap-2">
-                    <x-button :href="route('rides.create')" size="sm">+ Rit aanbieden</x-button>
+                    @auth
+                        <span class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-300 md:inline-flex">
+                            <span class="block h-1.5 w-1.5 rounded-full bg-acid-400 shadow-[0_0_8px] shadow-acid-400"></span>
+                            {{ auth()->user()->name }}
+                        </span>
+                        <x-button :href="route('rides.create')" size="sm">+ Rit aanbieden</x-button>
+                        <form method="POST" action="{{ route('logout') }}" class="contents">
+                            @csrf
+                            <x-button variant="ghost" size="sm" type="submit">Uitloggen</x-button>
+                        </form>
+                    @else
+                        <x-button :href="route('login')" variant="ghost" size="sm">Inloggen</x-button>
+                        <x-button :href="route('register')" size="sm">Maak account</x-button>
+                    @endauth
                 </div>
             </div>
         </header>
