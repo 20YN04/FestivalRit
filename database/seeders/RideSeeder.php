@@ -4,18 +4,25 @@ namespace Database\Seeders;
 
 use App\Models\Festival;
 use App\Models\Ride;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class RideSeeder extends Seeder
 {
     public function run(): void
     {
+        $owner = User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            ['name' => 'Test User', 'password' => bcrypt('password')]
+        );
+
         $pkkp = Festival::where('name', 'Pukkelpop')->first();
         $rw = Festival::where('name', 'Rock Werchter')->first();
         $trow = Festival::where('name', 'Tomorrowland')->first();
 
         Ride::create([
             'festival_id' => $pkkp->id,
+            'user_id' => $owner->id,
             'driver_name' => 'Dries',
             'departure_city' => 'Genk',
             'total_seats' => 4,
@@ -26,6 +33,7 @@ class RideSeeder extends Seeder
 
         Ride::create([
             'festival_id' => $rw->id,
+            'user_id' => $owner->id,
             'driver_name' => 'Lotte',
             'departure_city' => 'Antwerpen',
             'total_seats' => 5,
@@ -36,6 +44,7 @@ class RideSeeder extends Seeder
 
         Ride::create([
             'festival_id' => $trow->id,
+            'user_id' => $owner->id,
             'driver_name' => 'Sam',
             'departure_city' => 'Leuven',
             'total_seats' => 3,
@@ -46,6 +55,7 @@ class RideSeeder extends Seeder
 
         Ride::create([
             'festival_id' => $trow->id,
+            'user_id' => $owner->id,
             'driver_name' => 'Imke',
             'departure_city' => 'Gent',
             'total_seats' => 4,
@@ -54,10 +64,11 @@ class RideSeeder extends Seeder
             'description' => null,
         ]);
 
-        Festival::all()->each(function (Festival $festival) {
+        Festival::all()->each(function (Festival $festival) use ($owner) {
             Ride::factory()
                 ->count(random_int(2, 4))
                 ->for($festival)
+                ->for($owner)
                 ->create();
         });
     }

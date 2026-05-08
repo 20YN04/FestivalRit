@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Festival;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,9 @@ class FestivalFactory extends Factory
             ['name' => 'Lokerse Feesten', 'location' => 'Lokeren'],
         ];
 
-        return $this->faker->randomElement($festivals);
+        return [
+            ...$this->faker->randomElement($festivals),
+            'user_id' => User::factory(),
+        ];
     }
 }

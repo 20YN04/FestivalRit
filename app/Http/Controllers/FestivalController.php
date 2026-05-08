@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Festival;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class FestivalController extends Controller
+class FestivalController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:update,festival', only: ['edit', 'update']),
+            new Middleware('can:delete,festival', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
         $festivals = Festival::withCount('rides')->latest()->paginate(12);
@@ -26,7 +36,7 @@ class FestivalController extends Controller
             'location' => ['required', 'string', 'max:255'],
         ]);
 
-        $festival = Festival::create($data);
+        $festival = $request->user()->festivals()->create($data);
 
         return redirect()
             ->route('festivals.show', $festival)

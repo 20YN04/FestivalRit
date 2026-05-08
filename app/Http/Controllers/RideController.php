@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Festival;
 use App\Models\Ride;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class RideController extends Controller
+class RideController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:update,ride', only: ['edit', 'update']),
+            new Middleware('can:delete,ride', only: ['destroy']),
+        ];
+    }
+
     public function index(Request $request)
     {
         $festivals = Festival::orderBy('name')->get();
@@ -36,7 +46,7 @@ class RideController extends Controller
     {
         $data = $this->validateRide($request);
 
-        $ride = Ride::create($data);
+        $ride = $request->user()->rides()->create($data);
 
         return redirect()
             ->route('rides.show', $ride)
@@ -45,7 +55,7 @@ class RideController extends Controller
 
     public function show(Ride $ride)
     {
-        $ride->load('festival');
+        $ride->load(['festival', 'user']);
 
         return view('rides.show', compact('ride'));
     }

@@ -17,12 +17,16 @@
             </span>
         </div>
         <div class="flex items-center gap-2">
-            <x-button variant="secondary" size="sm" :href="route('festivals.edit', $festival)">Bewerken</x-button>
-            <form method="POST" action="{{ route('festivals.destroy', $festival) }}" onsubmit="return confirm('Festival verwijderen?')">
-                @csrf
-                @method('DELETE')
-                <x-button variant="danger" size="sm" type="submit">Verwijderen</x-button>
-            </form>
+            @can('update', $festival)
+                <x-button variant="secondary" size="sm" :href="route('festivals.edit', $festival)">Bewerken</x-button>
+            @endcan
+            @can('delete', $festival)
+                <form method="POST" action="{{ route('festivals.destroy', $festival) }}" onsubmit="return confirm('Festival verwijderen?')">
+                    @csrf
+                    @method('DELETE')
+                    <x-button variant="danger" size="sm" type="submit">Verwijderen</x-button>
+                </form>
+            @endcan
         </div>
     </div>
 

@@ -13,6 +13,7 @@ class Ride extends Model
 
     protected $fillable = [
         'festival_id',
+        'user_id',
         'driver_name',
         'departure_city',
         'total_seats',
@@ -30,6 +31,11 @@ class Ride extends Model
     public function festival(): BelongsTo
     {
         return $this->belongsTo(Festival::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     protected function seatsAvailable(): Attribute
