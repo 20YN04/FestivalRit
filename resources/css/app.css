@@ -6,6 +6,110 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Big Shoulders Display', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Familjen Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+    --color-ink-950: #07070b;
+    --color-ink-900: #0c0c14;
+    --color-ink-800: #14141e;
+    --color-ink-700: #1c1c2a;
+    --color-ink-600: #282836;
+    --color-ink-500: #3c3c4d;
+    --color-ink-400: #6b6b80;
+    --color-ink-300: #9b9bb0;
+    --color-ink-200: #c8c8d4;
+    --color-ink-100: #e4e4ee;
+    --color-ink-50:  #f4f4f8;
+
+    --color-flame-300: #ffb47a;
+    --color-flame-400: #ff8d4f;
+    --color-flame-500: #ff5a36;
+    --color-flame-600: #e63a1f;
+    --color-flame-700: #b8291a;
+
+    --color-magenta-300: #ff8fbe;
+    --color-magenta-400: #ff5fa3;
+    --color-magenta-500: #ff2e7e;
+    --color-magenta-600: #d6005f;
+
+    --color-acid-300: #e1ff7a;
+    --color-acid-400: #c6ff3d;
+    --color-acid-500: #9eef07;
+
+    --color-cyan-400: #4ee0ff;
+}
+
+@layer base {
+    html {
+        background-color: var(--color-ink-950);
+        color-scheme: dark;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        color: var(--color-ink-100);
+        background:
+            radial-gradient(ellipse 90% 60% at 85% -10%, color-mix(in oklab, var(--color-flame-500) 22%, transparent), transparent 60%),
+            radial-gradient(ellipse 70% 50% at -10% 30%, color-mix(in oklab, var(--color-magenta-500) 18%, transparent), transparent 60%),
+            radial-gradient(ellipse 80% 50% at 50% 110%, color-mix(in oklab, var(--color-cyan-400) 12%, transparent), transparent 60%),
+            var(--color-ink-950);
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-feature-settings: "ss01", "ss02";
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        opacity: 0.55;
+        mix-blend-mode: overlay;
+    }
+
+    .display {
+        font-family: var(--font-display);
+        font-weight: 800;
+        letter-spacing: -0.015em;
+        line-height: 0.85;
+    }
+
+    /* Native select/option dark fallback */
+    select option { background-color: var(--color-ink-900); color: var(--color-ink-100); }
+}
+
+@utility text-gradient-flame {
+    background-image: linear-gradient(120deg, #ffb47a 0%, #ff5a36 35%, #ff2e7e 75%, #ff5fa3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+@utility ticket-divider {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.18) 0 1px, transparent 1.5px);
+    background-size: 2px 8px;
+    background-repeat: repeat-y;
+    background-position: center;
+}
+
+@utility scanlines {
+    background-image: repeating-linear-gradient(
+        180deg,
+        transparent 0,
+        transparent 2px,
+        rgba(255,255,255,0.02) 2px,
+        rgba(255,255,255,0.02) 3px
+    );
+}
+
+@keyframes hero-rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@utility animate-hero {
+    animation: hero-rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
