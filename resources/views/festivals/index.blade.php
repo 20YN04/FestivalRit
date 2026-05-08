@@ -26,5 +26,9 @@
                 </x-card>
             @endforeach
         </div>
+
+        <div class="mt-6">
+            {{ $festivals->links() }}
+        </div>
     @endif
 </x-layout>

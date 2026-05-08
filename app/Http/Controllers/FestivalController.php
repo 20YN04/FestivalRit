@@ -9,7 +9,7 @@ class FestivalController extends Controller
 {
     public function index()
     {
-        $festivals = Festival::withCount('rides')->latest()->get();
+        $festivals = Festival::withCount('rides')->latest()->paginate(12);
 
         return view('festivals.index', compact('festivals'));
     }
