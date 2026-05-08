@@ -9,10 +9,10 @@
 
     <div class="mb-12 flex flex-wrap items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-2">
-            <span class="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-300">
+            <span class="rounded-full border border-white/10 bg-white/4 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-300">
                 {{ $festival->location }}
             </span>
-            <span class="rounded-full border border-acid-400/30 bg-acid-400/[0.06] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-acid-300">
+            <span class="rounded-full border border-acid-400/30 bg-acid-400/6 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-acid-300">
                 {{ $festival->rides->count() }} {{ Str::plural('rit', $festival->rides->count()) }}
             </span>
         </div>

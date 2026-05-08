@@ -5,20 +5,20 @@
     $departureValue = old('departure_time', $ride?->departure_time?->format('Y-m-d\TH:i'));
 @endphp
 
-<form method="POST" action="{{ $action }}" class="flex flex-col gap-4">
+<form method="POST" action="{{ $action }}" class="flex flex-col gap-6">
     @csrf
     @if ($method !== 'POST')
         @method($method)
     @endif
 
-    <div class="flex flex-col gap-1">
-        <label for="festival_id" class="text-sm font-medium text-neutral-700">
-            Festival <span class="text-red-600">*</span>
+    <div class="flex flex-col gap-2">
+        <label for="festival_id" class="font-mono text-[10px] uppercase tracking-[0.35em] text-ink-300">
+            Festival <span class="text-flame-400">*</span>
         </label>
         <select id="festival_id" name="festival_id" required
             @class([
-                'rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900',
-                'border-red-500' => $errors->has('festival_id'),
+                'w-full appearance-none rounded-2xl border border-white/10 bg-ink-900/60 px-4 py-3 text-base text-ink-50 backdrop-blur-md transition focus:border-flame-400/60 focus:outline-none focus:ring-4 focus:ring-flame-400/10',
+                '!border-flame-500/60' => $errors->has('festival_id'),
             ])>
             <option value="">— Kies een festival —</option>
             @foreach ($festivals as $festival)
@@ -27,21 +27,23 @@
                 </option>
             @endforeach
         </select>
-        @error('festival_id')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+        @error('festival_id')<p class="text-xs text-flame-400">{{ $message }}</p>@enderror
     </div>
 
-    <x-input name="driver_name" label="Naam chauffeur" :value="$ride?->driver_name" required />
-    <x-input name="departure_city" label="Vertrek vanuit" :value="$ride?->departure_city" required />
+    <div class="grid gap-5 md:grid-cols-2">
+        <x-input name="driver_name" label="Naam chauffeur" :value="$ride?->driver_name" required />
+        <x-input name="departure_city" label="Vertrek vanuit" :value="$ride?->departure_city" required />
+    </div>
 
-    <div class="grid gap-4 md:grid-cols-3">
+    <div class="grid gap-5 md:grid-cols-3">
         <x-input name="total_seats" type="number" min="1" max="50" label="Aantal plaatsen" :value="$ride?->total_seats" required />
         <x-input name="booked_seats" type="number" min="0" max="50" label="Reeds bezet" :value="$ride?->booked_seats ?? 0" />
         <x-input name="departure_time" type="datetime-local" label="Vertrektijd" :value="$departureValue" required />
     </div>
 
-    <x-textarea name="description" label="Beschrijving" :value="$ride?->description" />
+    <x-textarea name="description" label="Beschrijving" :value="$ride?->description" rows="5" />
 
-    <div class="flex justify-end">
-        <x-button type="submit">Opslaan</x-button>
+    <div class="flex justify-end pt-2">
+        <x-button type="submit" size="lg">Opslaan</x-button>
     </div>
 </form>
