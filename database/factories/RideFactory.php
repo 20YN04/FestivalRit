@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Festival;
 use App\Models\Ride;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class RideFactory extends Factory
 
         return [
             'festival_id' => Festival::factory(),
+            'user_id' => User::factory(),
             'driver_name' => $this->faker->name(),
             'departure_city' => $this->faker->randomElement($cities),
             'total_seats' => $total,

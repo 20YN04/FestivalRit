@@ -20,12 +20,12 @@ Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-// Public reads
-Route::resource('festivals', FestivalController::class)->only(['index', 'show']);
-Route::resource('rides', RideController::class)->only(['index', 'show']);
-
-// Authenticated writes
+// Authenticated writes — registered FIRST so /festivals/create matches before /festivals/{festival}
 Route::middleware('auth')->group(function () {
     Route::resource('festivals', FestivalController::class)->except(['index', 'show']);
     Route::resource('rides', RideController::class)->except(['index', 'show']);
 });
+
+// Public reads
+Route::resource('festivals', FestivalController::class)->only(['index', 'show']);
+Route::resource('rides', RideController::class)->only(['index', 'show']);

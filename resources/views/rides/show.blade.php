@@ -40,9 +40,9 @@
                         <div class="display mt-2 text-3xl text-ink-50">{{ $ride->booked_seats }}</div>
                     </div>
                 </div>
-                <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-white/0.06 pt-6">
+                <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-white/6 pt-6">
                     <x-seat-badge :ride="$ride" />
-                    <span class="rounded-full border border-white/10 bg-white/0.04 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-300">
+                    <span class="rounded-full border border-white/10 bg-white/4 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-ink-300">
                         Vanuit {{ $ride->departure_city }}
                     </span>
                 </div>
@@ -64,16 +64,36 @@
                 </div>
             </a>
 
-            <x-card eyebrow="Acties">
-                <div class="flex flex-col gap-2">
-                    <x-button :href="route('rides.edit', $ride)" variant="secondary">Bewerken</x-button>
-                    <form method="POST" action="{{ route('rides.destroy', $ride) }}" onsubmit="return confirm('Rit verwijderen?')" class="contents">
-                        @csrf
-                        @method('DELETE')
-                        <x-button variant="danger" type="submit" class="w-full">Verwijderen</x-button>
-                    </form>
-                </div>
-            </x-card>
+            @if ($ride->user)
+                <x-card eyebrow="Aangeboden door">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-flame-400 to-magenta-500 font-mono text-sm font-bold text-ink-950">
+                            {{ \Illuminate\Support\Str::of($ride->user->name)->substr(0, 1)->upper() }}
+                        </span>
+                        <div>
+                            <div class="text-base font-semibold text-ink-50">{{ $ride->user->name }}</div>
+                            <div class="font-mono text-[10px] uppercase tracking-[0.3em] text-ink-400">Lid sinds {{ $ride->user->created_at->isoFormat('MMM YYYY') }}</div>
+                        </div>
+                    </div>
+                </x-card>
+            @endif
+
+            @canany(['update', 'delete'], $ride)
+                <x-card eyebrow="Acties">
+                    <div class="flex flex-col gap-2">
+                        @can('update', $ride)
+                            <x-button :href="route('rides.edit', $ride)" variant="secondary">Bewerken</x-button>
+                        @endcan
+                        @can('delete', $ride)
+                            <form method="POST" action="{{ route('rides.destroy', $ride) }}" onsubmit="return confirm('Rit verwijderen?')" class="contents">
+                                @csrf
+                                @method('DELETE')
+                                <x-button variant="danger" type="submit" class="w-full">Verwijderen</x-button>
+                            </form>
+                        @endcan
+                    </div>
+                </x-card>
+            @endcanany
         </aside>
     </div>
 </x-layout>
