@@ -8,11 +8,20 @@ use Illuminate\Http\Request;
 
 class RideController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rides = Ride::with('festival')->latest('departure_time')->get();
+        $festivals = Festival::orderBy('name')->get();
 
-        return view('rides.index', compact('rides'));
+        $query = Ride::with('festival');
+
+        if ($request->filled('festival_id')) {
+            $query->where('festival_id', $request->integer('festival_id'));
+        }
+
+        $rides = $query->latest('departure_time')->get();
+        $selectedFestivalId = $request->integer('festival_id') ?: null;
+
+        return view('rides.index', compact('rides', 'festivals', 'selectedFestivalId'));
     }
 
     public function create(Request $request)
