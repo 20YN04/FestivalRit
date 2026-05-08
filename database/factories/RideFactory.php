@@ -19,11 +19,14 @@ class RideFactory extends Factory
             'Roeselare', 'Sint-Niklaas', 'Turnhout', 'Brussel',
         ];
 
+        $total = $this->faker->numberBetween(2, 6);
+
         return [
             'festival_id' => Festival::factory(),
             'driver_name' => $this->faker->name(),
             'departure_city' => $this->faker->randomElement($cities),
-            'available_seats' => $this->faker->numberBetween(1, 6),
+            'total_seats' => $total,
+            'booked_seats' => $this->faker->numberBetween(0, $total),
             'departure_time' => $this->faker->dateTimeBetween('+1 week', '+3 months'),
             'description' => $this->faker->optional(0.7)->sentence(12),
         ];

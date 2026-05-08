@@ -34,9 +34,9 @@
                             </a>
                             <p class="text-sm text-neutral-600">
                                 {{ $ride->departure_time->format('d M Y, H:i') }}
-                                · {{ $ride->available_seats }} {{ Str::plural('plaats', $ride->available_seats) }}
                             </p>
                         </div>
+                        <x-seat-badge :ride="$ride" />
                     </div>
                 </x-card>
             @endforeach

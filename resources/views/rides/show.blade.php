@@ -24,11 +24,13 @@
             <dl class="space-y-1 text-sm">
                 <div class="flex justify-between"><dt class="text-neutral-500">Vanuit</dt><dd>{{ $ride->departure_city }}</dd></div>
                 <div class="flex justify-between"><dt class="text-neutral-500">Tijd</dt><dd>{{ $ride->departure_time->format('d M Y, H:i') }}</dd></div>
-                <div class="flex justify-between"><dt class="text-neutral-500">Plaatsen</dt><dd>{{ $ride->available_seats }}</dd></div>
+                <div class="flex justify-between"><dt class="text-neutral-500">Capaciteit</dt><dd>{{ $ride->total_seats }}</dd></div>
+                <div class="flex justify-between"><dt class="text-neutral-500">Bezet</dt><dd>{{ $ride->booked_seats }}</dd></div>
+                <div class="flex items-center justify-between"><dt class="text-neutral-500">Status</dt><dd><x-seat-badge :ride="$ride" /></dd></div>
             </dl>
         </x-card>
 
-        <x-card title="Beschrijving">
+        <x-card title="beschrijving">
             <p class="text-sm text-neutral-700 whitespace-pre-line">
                 {{ $ride->description ?: 'Geen beschrijving.' }}
             </p>

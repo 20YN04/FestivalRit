@@ -50,12 +50,16 @@
                                 <p class="text-sm text-neutral-600">
                                     Vanuit {{ $ride->departure_city }}
                                     · {{ $ride->departure_time->format('d M Y, H:i') }}
-                                    · {{ $ride->available_seats }} {{ Str::plural('plaats', $ride->available_seats) }}
                                 </p>
                             </div>
+                            <x-seat-badge :ride="$ride" />
                         </div>
                     </x-card>
                 @endforeach
+            </div>
+
+            <div class="mt-6">
+                {{ $rides->links() }}
             </div>
         @endif
     </div>

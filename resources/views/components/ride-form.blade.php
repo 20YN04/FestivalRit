@@ -33,8 +33,9 @@
     <x-input name="driver_name" label="Naam chauffeur" :value="$ride?->driver_name" required />
     <x-input name="departure_city" label="Vertrek vanuit" :value="$ride?->departure_city" required />
 
-    <div class="grid gap-4 md:grid-cols-2">
-        <x-input name="available_seats" type="number" min="1" max="50" label="Beschikbare plaatsen" :value="$ride?->available_seats" required />
+    <div class="grid gap-4 md:grid-cols-3">
+        <x-input name="total_seats" type="number" min="1" max="50" label="Aantal plaatsen" :value="$ride?->total_seats" required />
+        <x-input name="booked_seats" type="number" min="0" max="50" label="Reeds bezet" :value="$ride?->booked_seats ?? 0" />
         <x-input name="departure_time" type="datetime-local" label="Vertrektijd" :value="$departureValue" required />
     </div>
 
